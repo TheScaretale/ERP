@@ -1,4 +1,4 @@
-This repository is the ERP i'm building in C#
+This repository is the ERP i'm building in C# and WinForms.
 
 Currently it has:
   Scan files to look for .XML's that are in accordance to the Brazilian NFe guidelines.
