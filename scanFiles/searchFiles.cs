@@ -14,7 +14,24 @@ namespace scanFiles
         private string[] files;
         private string destinationPath;
 
-        public void SearchFilesInFolder(string sourcePath, string destinationPath, string cnpj)
+        public int ArquivosValidos(string sourcePath)
+        {
+            string padraoBusca = $"*.XML";
+            files = Directory.GetFiles(sourcePath, padraoBusca, SearchOption.AllDirectories);
+            XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
+
+            int countArquivosValidos = 0;
+            foreach (string file in files) {
+                XDocument doc = XDocument.Load(file);
+                if (doc.Descendants(ns + "infNFe").Any())
+                {
+                    countArquivosValidos++;
+                }
+            }
+            return countArquivosValidos;
+        }
+
+        public void SearchFilesInFolder(string sourcePath, string destinationPath, string cnpj, Action <int> updateProgressBar)
         {
             if (sourcePath == null) throw new ArgumentNullException(nameof(sourcePath));
             if (destinationPath == null) throw new ArgumentNullException(nameof(destinationPath));
@@ -27,6 +44,7 @@ namespace scanFiles
 
             bool notaPropriaCreated = false;
             bool notaTerceirosCreated = false;
+            int progress = 0;
 
             foreach (string file in files)
             {
@@ -39,11 +57,6 @@ namespace scanFiles
                     string? emitCnpj = doc.Descendants(ns + "emit").FirstOrDefault()?.Element(ns + "CNPJ")?.Value;
                     DateTime dhEmi = DateTime.Parse(doc.Descendants(ns + "ide").FirstOrDefault()?.Element(ns + "dhEmi")?.Value);
 
-                    // Log the XML content and the extracted CNPJ value
-                    Debug.WriteLine($"Processing file: {file}");
-                    Debug.WriteLine($"XML Content: {doc}");
-                    Debug.WriteLine($"Extracted CNPJ: {emitCnpj}");
-
                     string noteType;
                     if (emitCnpj == cnpj)
                     {
@@ -53,9 +66,6 @@ namespace scanFiles
                             Directory.CreateDirectory(Path.Combine(this.destinationPath, noteType));
                             notaPropriaCreated = true;
                         }
-                        Debug.WriteLine("Nota Propria");
-                        Debug.WriteLine(emitCnpj);
-                        Debug.WriteLine(cnpj);
                     }
                     else
                     {
@@ -65,9 +75,6 @@ namespace scanFiles
                             Directory.CreateDirectory(Path.Combine(this.destinationPath, noteType));
                             notaTerceirosCreated = true;
                         }
-                        Debug.WriteLine("Nota de Terceiros");
-                        Debug.WriteLine(emitCnpj);
-                        Debug.WriteLine(cnpj);
                     }
 
                     string relativePath = Path.GetRelativePath(sourcePath, file);
@@ -77,6 +84,9 @@ namespace scanFiles
                     // Create folders based on file names, note type, and CNPJ
                     CreateFolder createFolder = new CreateFolder();
                     createFolder.CreateFolders(new string[] { file }, this.destinationPath, noteType, emitCnpj, dhEmi);
+
+                    progress++;
+                    updateProgressBar(progress);
                 }
                 else
                 {

@@ -31,15 +31,16 @@
             btnSearchFiles = new Button();
             btnCopyFile = new Button();
             btnDestPath = new Button();
-            cmbFileType = new ComboBox();
-            pastaOri = new Label();
-            pastaDest = new Label();
-            txtCNPJ = new TextBox();
+            label1 = new Label();
+            pastaOri = new TextBox();
+            pastaDest = new TextBox();
+            txtCNPJ = new ComboBox();
+            barraProgress = new ProgressBar();
             SuspendLayout();
             // 
             // btnSearchFiles
             // 
-            btnSearchFiles.Location = new Point(180, 311);
+            btnSearchFiles.Location = new Point(26, 53);
             btnSearchFiles.Name = "btnSearchFiles";
             btnSearchFiles.Size = new Size(117, 23);
             btnSearchFiles.TabIndex = 0;
@@ -50,9 +51,9 @@
             // btnCopyFile
             // 
             btnCopyFile.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            btnCopyFile.Location = new Point(277, 121);
+            btnCopyFile.Location = new Point(303, 151);
             btnCopyFile.Name = "btnCopyFile";
-            btnCopyFile.Size = new Size(191, 81);
+            btnCopyFile.Size = new Size(131, 63);
             btnCopyFile.TabIndex = 1;
             btnCopyFile.Text = "Copiar Arquivos";
             btnCopyFile.UseVisualStyleBackColor = true;
@@ -60,7 +61,7 @@
             // 
             // btnDestPath
             // 
-            btnDestPath.Location = new Point(474, 311);
+            btnDestPath.Location = new Point(28, 88);
             btnDestPath.Name = "btnDestPath";
             btnDestPath.Size = new Size(115, 23);
             btnDestPath.TabIndex = 2;
@@ -68,47 +69,57 @@
             btnDestPath.UseVisualStyleBackColor = true;
             btnDestPath.Click += btnDestPath_Click;
             // 
-            // cmbFileType
+            // label1
             // 
-            cmbFileType.FormattingEnabled = true;
-            cmbFileType.Items.AddRange(new object[] { "PDF", "XML", "HTML", "DOCX" });
-            cmbFileType.Location = new Point(305, 208);
-            cmbFileType.Name = "cmbFileType";
-            cmbFileType.Size = new Size(121, 23);
-            cmbFileType.TabIndex = 3;
+            label1.AutoSize = true;
+            label1.Location = new Point(50, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(81, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Digite o CNPJ:";
             // 
             // pastaOri
             // 
-            pastaOri.AutoSize = true;
-            pastaOri.Location = new Point(143, 337);
+            pastaOri.Location = new Point(164, 53);
             pastaOri.Name = "pastaOri";
-            pastaOri.Size = new Size(0, 15);
-            pastaOri.TabIndex = 4;
+            pastaOri.ReadOnly = true;
+            pastaOri.Size = new Size(270, 23);
+            pastaOri.TabIndex = 8;
             // 
             // pastaDest
             // 
-            pastaDest.AutoSize = true;
-            pastaDest.Location = new Point(433, 337);
+            pastaDest.Location = new Point(164, 88);
             pastaDest.Name = "pastaDest";
-            pastaDest.Size = new Size(0, 15);
-            pastaDest.TabIndex = 5;
+            pastaDest.ReadOnly = true;
+            pastaDest.Size = new Size(270, 23);
+            pastaDest.TabIndex = 9;
             // 
             // txtCNPJ
             // 
-            txtCNPJ.Location = new Point(313, 243);
+            txtCNPJ.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtCNPJ.FormattingEnabled = true;
+            txtCNPJ.Location = new Point(164, 12);
             txtCNPJ.Name = "txtCNPJ";
-            txtCNPJ.Size = new Size(100, 23);
-            txtCNPJ.TabIndex = 6;
+            txtCNPJ.Size = new Size(121, 23);
+            txtCNPJ.TabIndex = 10;
+            // 
+            // barraProgress
+            // 
+            barraProgress.Location = new Point(43, 170);
+            barraProgress.Name = "barraProgress";
+            barraProgress.Size = new Size(242, 23);
+            barraProgress.TabIndex = 11;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(470, 226);
+            Controls.Add(barraProgress);
             Controls.Add(txtCNPJ);
             Controls.Add(pastaDest);
             Controls.Add(pastaOri);
-            Controls.Add(cmbFileType);
+            Controls.Add(label1);
             Controls.Add(btnDestPath);
             Controls.Add(btnCopyFile);
             Controls.Add(btnSearchFiles);
@@ -122,9 +133,10 @@
         private Button btnSearchFiles;
         private Button btnCopyFile;
         private Button btnDestPath;
-        private ComboBox cmbFileType;
-        private Label pastaOri;
-        private Label pastaDest;
-        public TextBox txtCNPJ;
+        private Label label1;
+        private TextBox pastaOri;
+        private TextBox pastaDest;
+        private ComboBox txtCNPJ;
+        private ProgressBar barraProgress;
     }
 }

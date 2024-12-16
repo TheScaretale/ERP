@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -13,11 +16,12 @@ namespace scanFiles
         public string destinationPath;
         public string cnpj;
 
-        
+
 
         public Form1()
         {
             InitializeComponent();
+            CarregaValoresCNPJ();
         }
 
         SearchFiles searchFiles = new();
@@ -40,11 +44,19 @@ namespace scanFiles
             cnpj = txtCNPJ.Text;
             if (cnpj != "")
             {
+                SalvarCNPJ(cnpj);
                 if (Directory.Exists(sourcePath) && !string.IsNullOrWhiteSpace(destinationPath))
                 {
-                    searchFiles.SearchFilesInFolder(sourcePath, destinationPath, cnpj);
-                    //searchFiles.CopyFiles();
-                    MessageBox.Show("Arquivos copiados com sucesso!");
+                    int arquivosValidos = searchFiles.ArquivosValidos(sourcePath);
+                    barraProgress.Minimum = 0;
+                    barraProgress.Maximum = arquivosValidos;
+                    barraProgress.Value = 0;
+
+                    searchFiles.SearchFilesInFolder(sourcePath, destinationPath, cnpj, UpdateProgressBar);
+                    if(barraProgress.Value == barraProgress.Maximum) 
+                    { 
+                        MessageBox.Show("Arquivos copiados com sucesso!");
+                    }
                 }
                 else
                 {
@@ -70,6 +82,38 @@ namespace scanFiles
             }
         }
 
-        
+        private void SalvarCNPJ(string cnpj)
+        {
+            var ValoresCnpj = Properties.Settings.Default.ValoresCnpj ?? new StringCollection();
+            if (!ValoresCnpj.Contains(cnpj))
+            {
+                ValoresCnpj.Add(cnpj);
+                Properties.Settings.Default.ValoresCnpj = ValoresCnpj;
+                Properties.Settings.Default.Save();
+                txtCNPJ.Items.Add(cnpj);
+            }
+        }
+
+        private void CarregaValoresCNPJ()
+        {
+            var ValoresCnpj = Properties.Settings.Default.ValoresCnpj;
+            if (ValoresCnpj != null)
+            {
+                txtCNPJ.Items.AddRange(ValoresCnpj.Cast<string>().ToArray());
+            }
+
+        }
+
+        public void UpdateProgressBar(int value)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<int>(UpdateProgressBar), value);
+            }
+            else
+            {
+                barraProgress.Value = value;
+            }
+        }
     }
 }
