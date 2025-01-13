@@ -1,6 +1,6 @@
 ﻿namespace scanFiles
 {
-    partial class Form1
+    partial class CopyFiles
     {
         /// <summary>
         ///  Required designer variable.
@@ -44,7 +44,7 @@
             btnSearchFiles.Name = "btnSearchFiles";
             btnSearchFiles.Size = new Size(117, 23);
             btnSearchFiles.TabIndex = 0;
-            btnSearchFiles.Text = "Pasta origem";
+            btnSearchFiles.Text = "Pasta Origem";
             btnSearchFiles.UseVisualStyleBackColor = true;
             btnSearchFiles.Click += btnSearchFiles_Click;
             // 
@@ -61,7 +61,7 @@
             // 
             // btnDestPath
             // 
-            btnDestPath.Location = new Point(28, 88);
+            btnDestPath.Location = new Point(26, 109);
             btnDestPath.Name = "btnDestPath";
             btnDestPath.Size = new Size(115, 23);
             btnDestPath.TabIndex = 2;
@@ -88,7 +88,7 @@
             // 
             // pastaDest
             // 
-            pastaDest.Location = new Point(164, 88);
+            pastaDest.Location = new Point(162, 109);
             pastaDest.Name = "pastaDest";
             pastaDest.ReadOnly = true;
             pastaDest.Size = new Size(270, 23);

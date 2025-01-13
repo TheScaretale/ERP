@@ -50,6 +50,7 @@ namespace scanFiles
             {
                 XDocument doc = XDocument.Load(file);
                 XNamespace ns = "http://www.portalfiscal.inf.br/nfe"; // Define the namespace
+                
 
                 // Check if the file is a valid nFE document
                 if (doc.Descendants(ns + "infNFe").Any())

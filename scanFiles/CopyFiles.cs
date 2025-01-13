@@ -9,7 +9,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace scanFiles
 {
-    public partial class Form1 : Form
+    public partial class CopyFiles : Form
     {
 
         public string sourcePath;
@@ -18,7 +18,7 @@ namespace scanFiles
 
 
 
-        public Form1()
+        public CopyFiles()
         {
             InitializeComponent();
             CarregaValoresCNPJ();
